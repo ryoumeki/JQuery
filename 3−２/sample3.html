@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample3</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+		<!-- 現状では画像を増やしたい場合にサムネイル画像を表示するスペースがないのです。そこでサムネイルの部分を複数のパネルとして用意しナビゲーション
+	ボタンに応じて角パネルをよこにスライドして切り替える様に改良する。
+HTMLを以下の様に変更する。一度に表示するul要素ごとに「page」というclass属性を付けたdiv要素で包みます。最初のdiv.pageには「次へ」
+ボタンを、最後のdivページには.pageには「前へ」ボタンを配置し、間のdiv.pageには「次へ」「前へ」ボタンの両方を配置します。「次へ」ボタンの
+img要素のclass属性には「next」を、「前へ」ボタンのclass属性には「prev」を設定します。全てのdiv.pageを「pagewrap」というclass属性
+を付けたdiv要素で包む。
+cssを以下の様に変更する。
+「#navi .pagewrap」にwidth:900pxを設定しているのは、300pxのdiv.pageを３つ含んでいるからです。このwidthの数値はdiv.page(サムネイルのパネルの数)
+によって変更しよう。複数のdiv.pageが横に並んでいるが、div.pageを包んでいるdiv#naviにはoverflow:hiddenを設定しているため、実際には
+div#naviの内側のみ画面上に表示される。
+続いてはスクリプト部分の説明。
+ナビゲーションボタンにclickイベントを設定し「次へ」「前へ」ボタンがクリックされた時に、div.pagewrapのmargin-leftを変更することでスライド
+を動かす。「次へ」ボタンがクリックされると、animate()を使ってdiv.page.wrapのmargin-leftプロパティを現在の値から300px引いた値へ
+徐々に変更する。「前へ」ボタンがクリックされると逆に300px足した値に変更します。これでパネル部分が左右に移動するイメージギャラリーが
+完成した。
+dsmple3でanimate()を設定する際に、parselnt()という見慣れない記述が出ました。parselnt()は文字列を数値に変換するjavascriptの命令です。
+例えば、margin-leftプロパティに300px足した値を設定したい場合次の様に記述しても意図した結果にならない。
+$("#navi.pagewrap").css("margin-left")-300+"px"
+$("#navi.pagewrap").css("margin-left")は現在のmargin-left プロパティの値を取得している。margin-leftプロパティの値が「300px」
+なら「600px」という結果が欲しいとこだが、実際には「300px300px」というテキストになる。magin-leftの「300px」と数値の「300」、文字の「px」
+が結合されたためです。そこで、parselnt()を使って文字列を数値に変換します。次の様に記述すると、今度は「300+300+"px"」と認識される。
+最初の＋(プラス)は数値と数値の間にある算術演算子の＋なので足し算として扱われ「600」になり、次の＋で文字列の「px」と結合されて「600px」
+を設定できる。 parselnt($("#navi.pagewrap").css("margin-left"))+300+"px" となる。
+-->
+		<style>
+*{
+	margin:0;
+	padding:0;
+	border:0;
+}
+body{
+	background:black;
+}
+#container{
+	width:1000px;
+	margin:20px auto;
+}
+#navi{
+	width:300px;
+	float:left;
+}
+#navi ul{
+	height:460px;
+}
+#navi li{
+	list-style-type:none;
+	width:150px;
+	float:left;
+}
+#navi li img{
+	border:3px solid white;
+}
+#navi{
+	overflow:hidden;
+}
+#navi .pageWrap{
+	width:900px;
+}
+#navi .pageWrap .page{
+	width:300px;
+	float:left;
+}
+#navi p{
+	clear:both;
+	width:300px;
+	padding:10px 0;
+	text-align:center;
+}
+#navi p img{
+	cursor:pointer;
+}
+#main{
+	width:650px;
+	float:right;
+}
+#main img{
+	position:absolute;
+	border:3px solid white;
+}
+
+		</style>
+		<script>
+$(function(){
+	$("#navi a").click(function(){
+		$("#main img").before("<img src='"+$(this).attr("href")+"' alt=''>");
+		$("#main img:last").fadeOut("fast",function(){
+			$(this).remove();
+		});
+		return false;
+	})
+	$("img.next").click(function(){
+		$("#navi .pageWrap").animate({
+			"margin-left" : parseInt($("#navi .pageWrap").css("margin-left"))-300+"px"
+		},"fast");
+	});
+	$("img.prev").click(function(){
+		$("#navi .pageWrap").animate({
+			"margin-left" : parseInt($("#navi .pageWrap").css("margin-left"))+300+"px"
+		},"fast");
+	});
+});
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="navi">
+				<div class="pageWrap">
+					<div  class="page">
+						<ul>
+							<li><a href="images/photo1.jpg"><img src="images/photo1_thum.jpg" alt="シャンデリア"></a></li>
+							<li><a href="images/photo2.jpg"><img src="images/photo2_thum.jpg" alt="バラ"></a></li>
+							<li><a href="images/photo3.jpg"><img src="images/photo3_thum.jpg" alt="海"></a></li>
+							<li><a href="images/photo4.jpg"><img src="images/photo4_thum.jpg" alt="門"></a></li>
+							<li><a href="images/photo5.jpg"><img src="images/photo5_thum.jpg" alt="海"></a></li>
+							<li><a href="images/photo6.jpg"><img src="images/photo6_thum.jpg" alt="あじさい"></a></li>
+							<li><a href="images/photo7.jpg"><img src="images/photo7_thum.jpg" alt="空"></a></li>
+							<li><a href="images/photo8.jpg"><img src="images/photo8_thum.jpg" alt="建物"></a></li>
+						</ul>
+						<p><img src="images/btn_next.jpg" alt="次へ" class="next"></p>
+					</div>
+					<div  class="page">
+						<ul>
+							<li><a href="images/photo9.jpg"><img src="images/photo9_thum.jpg" alt="手"></a></li>
+							<li><a href="images/photo10.jpg"><img src="images/photo10_thum.jpg" alt="床"></a></li>
+							<li><a href="images/photo11.jpg"><img src="images/photo11_thum.jpg" alt="木"></a></li>
+							<li><a href="images/photo12.jpg"><img src="images/photo12_thum.jpg" alt="緑"></a></li>
+							<li><a href="images/photo13.jpg"><img src="images/photo13_thum.jpg" alt="花"></a></li>
+							<li><a href="images/photo14.jpg"><img src="images/photo14_thum.jpg" alt="くらげ"></a></li>
+							<li><a href="images/photo15.jpg"><img src="images/photo15_thum.jpg" alt="風船"></a></li>
+							<li><a href="images/photo16.jpg"><img src="images/photo16_thum.jpg" alt="花"></a></li>
+						</ul>
+						<p><img src="images/btn_prev.jpg" alt="前へ" class="prev"> <img src="images/btn_next.jpg" alt="次へ" class="next"></p>
+					</div>
+					<div  class="page">
+						<ul>
+							<li><a href="images/photo17.jpg"><img src="images/photo17_thum.jpg" alt="花"></a></li>
+							<li><a href="images/photo18.jpg"><img src="images/photo18_thum.jpg" alt="花"></a></li>
+							<li><a href="images/photo19.jpg"><img src="images/photo19_thum.jpg" alt="花"></a></li>
+						</ul>
+						<p><img src="images/btn_prev.jpg" alt="前へ" class="prev"></p>
+					</div>
+				</div>
+			</div>
+			<div id="main">
+				<img src="images/photo1.jpg" alt="">
+			</div>
+		</div>
+	</body>
+</html>

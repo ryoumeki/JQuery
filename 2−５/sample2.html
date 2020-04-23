@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample2</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script>
+
+		// load()で外部のHTMLを表示する・外部から取得するファイルがテキストファイルではなく、HTMLファイルの場合でも同じく loadを使う
+		// まず、sample2_load.htmlを取得してみる。単純にload()にsample2_load.htmlを指定するとセレクタで指定したp要素の内側が
+		// sample2_load.htmlの冒頭にある <!DOCTYPE~~~>から末尾の</html>まで全て置き換えられてしまう。なのでHTMLファイルの場合は
+		// ファイル名(URL)の後ろにCSSセレクタを追加することで読み込む場所を絞り込める。以下の場合は、p要素に絞り混んでいる。
+		// しかし、これだとp要素でp要素を囲ってしまう。そこでdiv要素で包み外側のセレクタのdiv要素で囲ってあげる。
+		
+$(function(){
+	$("button").click(function(){
+		$("div").load("./sample2_load.html p");
+	});
+});
+		</script>
+	</head>
+	<body>
+		<button>変更</button>
+		<div><p>変更前</p></div>
+	</body>
+</html>

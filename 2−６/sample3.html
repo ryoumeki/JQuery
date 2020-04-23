@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample3</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<style>
+div{
+	width:300px;
+	height:300px;
+	background:red;
+	display:none;
+}
+		</style>
+		<script>
+
+		// 表示中の要素を非表示にする hide()・hide()は show()の逆の動きをする命令。表示状態(display:block)のhtml要素を非表示(display:none)
+		// に変更する。showと同じ様に、hide(・・・)の括弧内にはアニメーションのスピードとコールバック関数を設定でき、指定したスピードで透明度
+		// 、サイズ(高さ/幅)を徐々に変化させながら要素を非表示にする。showをつかったsample1に、非表示ボタンを追加したのがsample3です。
+		
+$(function(){
+	$("button#show").click(function(){
+		$("div").show("slow");
+	});
+	$("button#hide").click(function(){
+		$("div").hide("slow");
+	});
+});
+		</script>
+	</head>
+	<body>
+		<button id="show">表示</button>
+		<button id="hide">非表示</button>
+		<div></div>
+	</body>
+</html>

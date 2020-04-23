@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample10</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<style>
+p{
+	width:800px;
+	height:267px;
+	margin:0;
+}
+div{
+	width:400px;
+	height:267px;
+	overflow:hidden;
+}
+		</style>
+		<script>
+
+		// 独自のアニメーションを設定できる animate()・任意のcssプロパティの値を徐々に変化させて独自のアニメーション効果を作成できる命令
+		// もある。animate()の括弧内には、cssプロパティ(プロパティ名と値)、アニメーションのスピード、動き(easing)、コールバック関数を指定
+		// する。　$(セレクター).animate(値を変更したいcssプロパティ,スピード、動き、コールバック関数)　となる。
+		// animateに設定できるCSSプロパティは、height,top,opacityの様に数値(px,em,%)で表せる物に限り、colorの様に数値以外の値を指定する
+		// プロパティには対応しない。書き方はcss()で複数のcssプロパティを同時に設定する時と同じで、プロパティ名と値を:(コロン)で繋ぎ、""(ダブル
+		// フォーテーション)でかこめむ。複数のプロパティを繋ぐ時は ,(カンマ)で繋ぐ。動きには linear または swing を設定できる。linear は常に一定の
+		// 速度で、swingは最初ゆっくりで後半は速い速度で変化を付けながら値を変更する。
+
+		// animate()で画像を左右にスライドさせる・cssを理解していればアイデア次第で様々なアニメーション効果を作成できる。sample10は画像がクリック
+		// されるとクリックされた画像を左か右にスライドさせ、別の画像に切り替えるアニメーション効果である。
+		
+$(function(){
+	$("#flower").click(function(){
+		$("p:not(:animated)").animate({
+			"margin-left" : "-400px"
+		},"slow","swing");
+	});
+	$("#building").click(function(){
+		$("p:not(:animated)").animate({
+			"margin-left" : "0"
+		},"slow","swing");
+	});
+});
+		</script>
+	</head>
+	<body>
+		<div><p><img src="flower.jpg" alt="flower" id="flower"><img src="building.jpg" alt="building" id="building"></p></div>
+	</body>
+</html>

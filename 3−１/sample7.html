@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample7</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script>
+
+		// 列のハイライト・行のハイライトする処理が出来たら、今度は列の処理を作ります。列を一発でまとめて選択できるセレクターはないので行に比べると
+		// 手間はかかるが、以下の様なスクリプトで実装できる。
+
+		// このサンプルでは、tb要素にマウスが重なると、同じ列のtb要素に対して「hover」というclass属性を追加し、マウスが要素から離れるとhoverを
+		// 削除する様になっている。セレクタの($("tb").index(this)%$("th").length+1)の部分には見慣れない記述があるが、コードを分割してみてく。
+		// $("td").index(this)・index()は、括弧内に記述した要素の順番(インデックス番号)を調べる命令。横の場合はthis、つまり現在マウスが
+		// 重なっているtd要素が,$("td")の中で何番目なのかを取得している。javascriptでは数字を０から数えるので、最初の要素は０になる。サンプル
+		// のテーブルのtd要素は以下の様なインデックス番号となっています。
+		//    no|name|birthday|Phone|mail|
+				// 0|   1|       2|    3|   4|
+				// 5|   6|       7|    8|   9|
+			 // 10|  11|      12|   13|  14|
+			 // 15|  16|      17|   18|  19|
+
+// $("th").length・　lengthには、セレクターで指定した要素が存在する数が保存されている。ここではセレクタでthを指定しているので、テーブルの列の数
+// 、つまり「５」を取得している。
+
+// $("td").index(this)%$("th").length・　％(パーセント)は割り算の余りを求める記号（演算子)で、A%Bと書くとAとBで割った余りをです。上の
+// 場合は「マウスが重なっている要素のインデックス番号」を「th要素の数」で割っているので、1行目1列目にマウスがある場合は0÷5の余りの「0」を、
+// 2行目4列目の場合は8÷5の余りの「3」を取得できる。それぞれのセルにマウスが重なった時に得られる値をまとめると、以下の様になる。
+// no|name|birthday|phone|mail|
+//  0|   1|       2|    3|   4|
+//  0|   1|       2|    3|   4|
+//  0|   1|       2|    3|   4|
+
+// $("td").index(this)%$("th").length+1・　先ほど計算した「余り」の値に１を足します。すると、マウスカーソルが現在重なっている列の番号
+// になります。列の番号を取得できたらあともう一歩です。nth-child()擬似クラスでtd要素を絞り込める。
+
+// $("td:nth-child("+($("td").index(this)%$("th").length+1)+")")・　nth-child()は括弧内に要素の番号を指定するので、テキストの結合
+// で、ここまでの処理を括弧内に入れ込む。これで、マウスが重なっているtd要素と同じ列をセレクターで選択し、classを追加したり、削除したりできる様に
+// なった。sample3で作ったストライプテーブルの処理、行/列のハイライト処理をまとめたのがsample７です。
+
+$(function(){
+	$("th:nth-child(odd)").addClass("odd");
+	$("tr:nth-child(even)").addClass("even");
+
+	$("tr:not(:first-child)").mouseover(function(){
+		$(this).addClass("hover");
+	}).mouseout(function(){
+		$(this).removeClass("hover");
+	});
+
+	$("td").mouseover(function(){
+		$("td:nth-child("+($("td").index(this)%$("th").length+1)+")").addClass("hover");
+	}).mouseout(function(){
+		$("td:nth-child("+($("td").index(this)%$("th").length+1)+")").removeClass("hover");
+	});
+});
+		</script>
+		<style>
+		table{
+			margin:100px auto;
+		}
+		.odd{
+			background:#444444;
+		}
+		th{
+			background:#222222;
+			color:white;
+		}
+		th,td{
+			padding:5px;
+			font-size:small;
+		}
+		.even{
+			background:#F2F2F2;
+		}
+		.hover{
+			background:#B2D8FF;
+		}
+
+		</style>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<th>no</th><th>Name</th><th>Birthday</th><th>Phone</th><th>Mail</th>
+			</tr>
+			<tr>
+				<td>1</td><td>Yamada Tarou</td><td>1979-06-05</td><td>090-1234-5678</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>2</td><td>Tanaka Daisuke</td><td>1975-11-05</td><td>090-9999-9999</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>3</td><td>Sato Hanako</td><td>1985-11-23</td><td>080-9876-5432</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>4</td><td>Yamada Jiro</td><td>1979-06-05</td><td>090-1234-5678</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>5</td><td>Tanaka Hanako</td><td>1985-11-23</td><td>090-9999-7777</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>6</td><td>Nishihata Kazuma</td><td>1979-06-05</td><td>090-1234-5678</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>7</td><td>Shimizu Daisuke</td><td>1985-11-23</td><td>080-9876-5432</td><td>example@to-r.net</td>
+			</tr>
+			<tr>
+				<td>8</td><td>Tnaka Jiro</td><td>1975-11-05</td><td>090-9999-7777</td><td>example@to-r.net</td>
+			</tr>
+		</table>
+	</body>
+</html>

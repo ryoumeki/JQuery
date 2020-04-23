@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample4</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<style>
+div{
+	width:300px;
+	height:300px;
+	background:red;
+	display:none;
+}
+		</style>
+		<script>
+
+		// アニメーションがとまらないを解決する :not(:animated)・show()/hide()は一回のアニメーション処理が終わってから次のアニメーションを
+		// 実行するので、アニメーションの実行中に表示・非表示ボタンを素早く交互に何度もクリックすると、クリックした回数分のアニメーションが完全に
+		// 終了するまで待たなければならない。この問題を解決するのがアニメーション処理中の要素を選択できるセレクター :animated です。
+		// :not()と組み合わせで :not(:animated)と記述すると、「アニメーション処理中ではない要素」を絞りこめる。sample3を改良したのがsample4
+		// です。sample4ならdiv要素がアニメーションしていない時にだけshow()/hide()は実行され、アニメーション中は実行されない。
+		
+$(function(){
+	$("button#show").click(function(){
+		$("div:not(:animated)").show("slow");
+	});
+	$("button#hide").click(function(){
+		$("div:not(:animated)").hide("slow");
+	});
+});
+		</script>
+	</head>
+	<body>
+		<button id="show">表示</button>
+		<button id="hide">非表示</button>
+		<div></div>
+	</body>
+</html>

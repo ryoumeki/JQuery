@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>sample5</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<style>
+div{
+	width:300px;
+	height:300px;
+	background:red;
+	display:none;
+}
+		</style>
+		<script>
+
+		// 要素の表示、非表示を交互に切り替える toggle()・要素の表示、非表示を交互に切り替える命令です。セレクタで指定した要素が表示されている時は
+		// 非表示に、非表示状態のときは表示状態に変更します。show/hideと同様に、toggle()の括弧内にはアニメーションのスピードとコールバック関数を
+		// 指定できる。
+
+$(function(){
+	$("button").click(function(){
+		$("div:not(:animated)").toggle("slow");
+	});
+});
+		</script>
+	</head>
+	<body>
+		<button>表示・非表示</button>
+		<div></div>
+	</body>
+</html>
